@@ -1,0 +1,83 @@
+#include <Time.h>
+#include <TimeLib.h>
+
+#include <LiquidCrystal.h>
+
+#include <Wire.h>
+#include <Adafruit_INA219.h>
+
+int totpow = 0;
+int power[24];
+int val = 0;
+Adafruit_INA219 ina219;
+float shuntvoltage = 0;
+float busvoltage = 0;
+float current_mA = 0;
+float loadvoltage = 0;
+float power_mW = 0;
+
+
+int Contrast=75;
+LiquidCrystal lcd(8,7,5,4,3,2);
+
+void setup(void) 
+{
+  analogWrite(6,Contrast);
+  lcd.begin(16,2);
+  Serial.begin(115200);
+  while (!Serial) {
+      
+      delay(1);
+  }
+
+  uint32_t currentFrequency;
+  lcd.setCursor(0,0);  
+  lcd.println("Hello!");
+
+  //ina219.setCalibration_16V_1A();
+  ina219.begin();
+  //lcd.setCursor(0,1);
+  //lcd.println("Measuring voltage and current with INA219 ...");
+}
+
+void loop(void) 
+{
+  shuntvoltage = ina219.getShuntVoltage_mV();
+  busvoltage = ina219.getBusVoltage_V();
+  current_mA = ina219.getCurrent_mA();
+  //power_mW = ina219.getPower_mW();
+  loadvoltage = busvoltage + (shuntvoltage / 1000);
+  power_mW = current_mA * loadvoltage;
+  
+  totpow = totpow + power_mW;
+    
+  //energy=
+  //Serial.print("Bus Voltage:   "); Serial.print(busvoltage); Serial.println(" V");
+  //Serial.print("Shunt Voltage: "); Serial.print(shuntvoltage); Serial.println(" mV");
+  lcd.setCursor(0,0);
+  //lcd.println(loadvoltage);
+  lcd.println((String)"V:"+loadvoltage+"V");//Serial.println(" V")
+  lcd.println((String)"I:"+current_mA+"mA"); 
+  //lcd.println("mA",current_mA); 
+  //lcd.println("");
+  lcd.setCursor(0,1);
+  //Serial.println(" mA");
+  //lcd.print(power_mW);lcd.print("mW"); //Serial.println(" mW");
+  lcd.println((String)"P:"+power_mW+"mW");
+  //lcd.println("");
+
+  delay(2000);
+  time_t s =now();
+  hour(s);
+
+  if(s%10==0)
+  {
+    val = (s%10)+1;
+    power[val]=totpow;
+    totpow=0;    
+  }
+  Serial.println(totpow);
+  Serial.println(power[0]);
+  
+  
+}
