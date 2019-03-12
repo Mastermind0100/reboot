@@ -1,0 +1,37 @@
+<% include ./partials/header.ejs%>
+
+
+<div class='login-body'>
+    <div class="row">
+        <div class="col-md-4 col-sm-4"></div>
+        <div class="loginbox col-md-4 col-sm-4">
+            <h1> Login</h1>
+            <%if(query.error){ if (query.error==402){%>
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"/>
+                    <span class="sr-only"/>
+                    Wrong Aadhar Id or Password
+
+                </div>
+            <%}}%>
+
+            <form  method="post">
+                <br>
+
+                <p style="text-align:left">Aadhar No.</p>
+                <input type="text" name="username" placeholder="012345678912.">
+                <br>
+                <p style="text-align:left">Password</p>
+                <input type="password" name="password" placeholder="Enter Password">
+                <br>
+                <input type="Submit" name="" value="Login">
+
+            </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-4"></div>
+
+    </div>
+</div>
+<% include ./partials/footer.ejs %>

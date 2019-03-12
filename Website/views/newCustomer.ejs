@@ -1,0 +1,35 @@
+<%include ./partials/header.ejs%>
+
+<h3>Add a new Customer</h3>
+
+<form>
+    <div class="row" >
+        <div class ="form-group col-sm-12 col-md-6 ">
+        <lable for="aadhar">Aadhar No.</lable>
+        <input type="number" class="form-control"
+               name="aadhar">
+        </div>
+    </div>
+    <div class="row">
+    <div class ="form-group col-sm-12 col-md-6">
+        <lable for="email">Email id</lable>
+        <input type="email" class="form-control"
+               name="email"><br/>
+    </div></div>
+    <div class="row"><div class ="form-group col-sm-12 col-md-6 ">
+        <lable for="Name">Name</lable>
+        <input type="text" class="form-control"
+               name="Name"><br/>
+
+    </div></div>
+    <div clas="row">
+    <div class ="form-group col-sm-12 col-md-6">
+        <lable for="password">Password</lable>
+        <input type="password" class="form-control"
+               name="password"><br/>
+    </div>
+    </div>
+    <div class="row">
+    <button type="submit" class="btn">Submit</button>
+    </div>
+</form>
