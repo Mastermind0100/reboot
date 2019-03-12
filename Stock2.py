@@ -37,12 +37,12 @@ model.add(Dropout(0.2))
 model.add(LSTM(units = 32))
 model.add(Dropout(0.2))
 model.add(Dense(units = 1))
-model.compile(optimizer = 'adam', loss = 'mean_squared_error')
+model.compile(optimizer = 'nadam', loss = 'mean_squared_error')
 model.fit(x_train,y_train,epochs = 350,batch_size = 32)
 
 dataset_test = pd.read_csv('PowerTest.csv')
 print(dataset_train)
-real_stock_price = dataset_test.iloc[:,1:2].values
+actual_power = dataset_test.iloc[:,1:2].values
 dataset_total = pd.concat((dataset_train['AEP_MW'],dataset_test['AEP_MW']),axis = 0)
 #print(dataset_total)
 inputs = dataset_total[len(dataset_total)-len(dataset_test)-60:].values
@@ -55,8 +55,8 @@ for i in range (60,76):
 x_test = np.array(x_test)
 x_test = np.reshape(x_test,(x_test.shape[0],x_test.shape[1],1))
 #print(x_test)
-predicted_stock = model.predict(x_test)
-pedicted_stock = sc.inverse_transform(predicted_stock)
+predicted_power = model.predict(x_test)
+pedicted_power = sc.inverse_transform(predicted_power)
 #print(predicted_stock)
 
 plt.plot(actual_power, color = 'black', label = 'Actual')
